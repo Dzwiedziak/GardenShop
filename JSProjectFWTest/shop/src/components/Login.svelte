@@ -1,0 +1,252 @@
+<script context="module">
+	const elements = new Set();
+</script>
+
+<script>
+    import {onDestroy, onMount} from 'svelte';
+    import { login } from '../../classes/login.js';
+    import {loginState} from '../../classes/login.js'
+    let username = "";
+    let password = "";
+    export let viewstate;
+
+    let showPassword = false;
+
+    const handleLogin = () => {
+        login(username, password);
+        viewstate = 0;
+    };
+    const handleRegister = () => {
+        viewstate = 3;
+    }
+    function togglePasswordVisibility(event) {
+        showPassword = !showPassword;
+
+        event.preventDefault();
+    }
+</script>
+
+   
+<div class="container">
+    <div class="login-component">
+        <div class="login-inside">
+            <form  on:submit={handleLogin}>
+                <div class="inputs">
+                    <div class="login-input">
+                        <img src="user.svg" class="icon" />
+                        <input bind:value={username} type="text" class="login-label" placeholder="Login" />
+                    </div>
+                    <div class="password-input">
+                        <img src="lock.svg" class="icon" />
+                        {#if showPassword}
+                        <input bind:value={password} type="text" class="password-label" placeholder="Haslo" />
+                        {:else}
+                        <input bind:value={password} type="password" class="password-label" placeholder="Haslo" />
+                        {/if}
+                        <div on:click={togglePasswordVisibility} class="password-visible"></div>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button on:click={handleLogin} class="submit-button">Zaloguj się</button>
+                </div>
+                </form>
+        </div>
+        <div class="alternative-login">
+            <div class="alternative">
+                OR
+            </div>
+            <div class="login-buttons">
+                <a data-ms-auth-provider="google" href="#" class="social-btn google w-inline-block">
+                    <div class="social-content">
+                        <img src="https://assets.website-files.com/632c941ea9199f8985f3fd52/632c96701d9ca53fae09d146_google.svg" loading="lazy" alt="" class="social-image">
+                        <div data-ms-auth-connected-text="Disconnect Google" class="social-text">
+                            Continue with Google
+                        </div>
+                    </div>
+                </a>
+                <a data-ms-auth-provider="facebook" href="#" class="social-btn facebook w-inline-block">
+                    <div class="social-content">
+                        <img src="https://assets.website-files.com/632c941ea9199f8985f3fd52/632c960d4839cf20aeafcad2_facebook.svg" loading="lazy" alt="" class="social-image">
+                        <div data-ms-auth-connected-text="Disconnect Facebook" class="social-text">
+                            Continue with Facebook
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="flex">
+            <button class="back-button" on:click={() => {viewstate = 0}}>
+                <img src="back.svg" class="icon" />
+            </button>
+            <div class="sign-in">
+                <button class="sign-in-button" on:click={handleRegister}>
+                    New? Sign in
+                </button>
+                    
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+.back-button{
+    background-color: transparent;
+}
+.sign-in-button{
+    background-color: white;
+    margin-right: 30px;
+    outline: none;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+    .login-inside {
+    background-color: #312e2b;
+    display: flex;
+    flex-direction: column;
+}
+button{
+    border: none;
+}
+.login-component {
+    background-color: #262421;
+    width: 400px;
+    border-radius: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+.login-label {
+    background-color: #050000;
+}
+.password-label {
+    background-color: #050000;
+}
+.login-input{
+    display: flex;
+    margin: 30px 0px;
+}
+.password-input{
+    display: flex;
+}
+a{
+    text-decoration: none;
+}
+a:hover{
+    cursor: pointer;
+}
+a:visited{
+    color: inherit;
+}
+.icon {
+    height: 20px;
+    width: 40px;
+    color: white;
+    filter: invert(100%);
+    margin-right: 10px;
+}
+.password-visible {
+    background: url("../visible.svg");
+    background-size: cover;
+    height: 25px;
+    width: 45px;
+    margin-left: 10px;
+}
+.inputs{
+    display: block;
+    width: 100%;
+}
+input{
+    color: white;
+}
+.submit-button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 10px auto;
+}
+form{
+    margin: 10px auto;
+}
+.button-container{
+    display: flex;
+    justify-items: center;
+}
+.social-btn {
+    width: 100%;
+    color: #000;
+    border: 1px solid #dcdce5;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    padding: 12px 40px 12px 15px;
+    font-size: 15px;
+    font-weight: 300;
+    text-decoration: none;
+    transition: border-color .2s, box-shadow .2s;
+    position: relative;
+    box-shadow: 0 1px 2px rgba(220, 220, 229, .5);
+    background-color: white;
+}
+.w-inline-block {
+    max-width: 100%;
+    width: 250px;
+    display: inline-block;
+}
+.social-content {
+    grid-column-gap: 20px;
+    align-items: center;
+    display: flex;
+}
+.social-image {
+    width: 24px;
+}
+.alternative {
+    text-align: center;
+    border-bottom: 1px solid grey;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    color: white;
+}
+.alternative-login{
+    margin: 0px auto;
+    display: block;
+}
+.login-buttons {
+    margin: 0 auto;
+    display: block;
+    width: 300px;
+}
+.sign-in {
+    color: white;
+    text-align: center;
+    width: 90%;
+    margin: 0px auto;
+    display: block;
+}
+.container {
+    background-image: url('../leaf20.png');
+    background-size: cover; 
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif; 
+}
+.container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+}
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+
+</style>

@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\classes",
+    "\\public",
+    "\\scripts",
+    "\\services",
+    "\\src",
+    "\\src\\components",
+    "\\src\\components\\representive"
+  ],
+  "SelectedNode": "\\src\\components\\ProductList.svelte",
+  "PreviewInSolutionExplorer": false
+}
